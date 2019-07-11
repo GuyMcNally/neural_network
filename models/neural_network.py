@@ -23,7 +23,7 @@ class NeuralNetwork:
       # Multiply the error by the input and again by the gradient of the Sigmoid curve.
       # This means less confident weights are adjusted more.
       # This means inputs, which are zero, do not cause changes to the weights.
-      adjustment = dot(training_set_inputs.T, error * self.__sigmoid_derivative(output))
+      adjustment = dot(training_set_inputs.T, error * self.sigmoid_derivative(output))
 
       # Adjust the weights.
       self.neuron.adjust_weights(adjustment)
