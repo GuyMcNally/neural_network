@@ -29,10 +29,8 @@ class NeuralNetwork:
     for iteration in range(number_of_training_iterations):
       # Pass the training set through our neural network (a single neuron).
       predicted_output = self.neuron.think(training_set_inputs)
-      print(">>>>>>>>>>>>>>>>predicted_output: ", predicted_output)
 
       error = self.get_error_rate(training_set_outputs, predicted_output)
-      print(">>>>>>>>>>>>>>>>error: ", error)
       adjustment = self.get_adjustment_rate(training_set_inputs, error, predicted_output)
 
       # Adjust the weights.
