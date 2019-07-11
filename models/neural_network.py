@@ -9,7 +9,7 @@ class NeuralNetwork:
   # The derivative of the Sigmoid function.
   # This is the gradient of the Sigmoid curve.
   # It indicates how confident we are about the existing weight.
-  def __sigmoid_derivative(self, x):
+  def sigmoid_derivative(self, x):
       return x * (1 - x)
 
   def train(self, training_set_inputs, training_set_outputs, number_of_training_iterations):
