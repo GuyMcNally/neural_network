@@ -35,3 +35,13 @@ class NeuralNetwork:
 
       # Adjust the weights.
       self.neuron.adjust_weights(adjustment)
+
+  def trains(self, training_set_inputs, training_set_outputs, number_of_training_iterations):
+    for neuron in self.neurons:
+      # Pass the training set through our neural network (a single neuron).
+      predicted_output = neuron.think(training_set_inputs)
+      error = self.get_error_rate(training_set_outputs, predicted_output)
+      adjustment = self.get_adjustment_rate(training_set_inputs, error, predicted_output)
+
+      # Adjust the weights.
+      neuron.adjust_weights(adjustment)
