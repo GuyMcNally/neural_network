@@ -5,6 +5,7 @@ class NeuralNetwork:
 
   def __init__(self, seed):
     self.neuron = Neuron(3, 1, seed)
+    self.neurons = [Neuron(3, 1, seed), Neuron(3, 1, seed)]
 
   # The derivative of the Sigmoid function.
   # This is the gradient of the Sigmoid curve.
@@ -12,18 +13,27 @@ class NeuralNetwork:
   def sigmoid_derivative(self, x):
       return x * (1 - x)
 
-  def train(self, training_set_inputs, training_set_outputs, number_of_training_iterations):
-    for iteration in range(number_of_training_iterations):
-      # Pass the training set through our neural network (a single neuron).
-      output = self.neuron.think(training_set_inputs)
+  def get_error_rate(self, training_set_outputs, predicted_output):
+    # Calculate the error (The difference between the desired output and the predicted output).
+    return training_set_outputs - predicted_output
 
-      # Calculate the error (The difference between the desired output and the predicted output).
-      error = training_set_outputs - output
-
+  def get_adjustment_rate(self, training_set_inputs, error, predicted_output):
       # Multiply the error by the input and again by the gradient of the Sigmoid curve.
       # This means less confident weights are adjusted more.
       # This means inputs, which are zero, do not cause changes to the weights.
-      adjustment = dot(training_set_inputs.T, error * self.sigmoid_derivative(output))
+      sigmoid_derivative_curve = error * self.sigmoid_derivative(predicted_output)
+      training_set_inputs_shape = training_set_inputs.T
+      return dot(training_set_inputs_shape, sigmoid_derivative_curve)
+
+  def train(self, training_set_inputs, training_set_outputs, number_of_training_iterations):
+    for iteration in range(number_of_training_iterations):
+      # Pass the training set through our neural network (a single neuron).
+      predicted_output = self.neuron.think(training_set_inputs)
+      print(">>>>>>>>>>>>>>>>predicted_output: ", predicted_output)
+
+      error = self.get_error_rate(training_set_outputs, predicted_output)
+      print(">>>>>>>>>>>>>>>>error: ", error)
+      adjustment = self.get_adjustment_rate(training_set_inputs, error, predicted_output)
 
       # Adjust the weights.
       self.neuron.adjust_weights(adjustment)
